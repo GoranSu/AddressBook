@@ -1,0 +1,70 @@
+<h1 mat-dialog-title fxLayoutAlign="center center">{{title}}</h1>
+<div *ngIf="dataReceived">
+  <mat-dialog-content class="content">
+    <!--Form begins-->
+    <form [formGroup]="contactForm">
+        <div class="breaker">
+          <mat-form-field fxFlex>
+            <input matInput formControlName="FirstName" placeholder="First name" required>
+            <mat-error>First Name is required.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="breaker">
+          <mat-form-field fxFlex>
+            <input matInput formControlName="LastName" placeholder="Last name" required>
+            <mat-error>Last name is required.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="breaker">
+          <mat-form-field fxFlex>
+            <input [matDatepicker]="picker" formControlName="DateOfBirth" matInput placeholder="Date Of Birth">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="breaker">
+          <mat-form-field fxFlex>
+            <input matInput formControlName="Address" placeholder="Address">
+          </mat-form-field>
+        </div>
+
+      <div formArrayName="PhoneNumbers">
+        <div *ngFor="let phone of getPhones(contactForm); let i=index">
+          <!--Telephone array iterations-->
+          <div [formGroupName]="i">
+            <div fxLayout="row">
+              <div class="breaker">
+                <mat-form-field>
+                  <input matInput formControlName="Number" placeholder="Number {{i+1}}" required>
+                </mat-form-field>
+              </div>
+              <!--Delete telephone-->
+              <div class="breaker">
+                <button *ngIf="!contactForm.disabled" mat-icon-button (click)="deletePhonePrompt(contactForm.controls.PhoneNumbers, i)">
+                  <mat-icon>
+                    delete
+                  </mat-icon>
+                </button>
+              </div>
+              <!--Delete telephone-->
+            </div>
+          </div>
+          <!--Telephone array iterations-->
+        </div>
+        <button mat-stroked-button color="primary" [disabled]="!contactForm.valid" *ngIf="!contactForm.disabled" (click)="addNewPhone()">
+          <mat-icon>
+            contact_phone
+          </mat-icon>
+        </button>
+      </div>
+    </form>
+    <!--Form ends-->
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center">
+    <button *ngIf="action === 'view'" mat-stroked-button mat-dialog-close (click)="edit()">Edit</button>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-stroked-button color="warn" (click)="delete()">Delete</button>
+    <button mat-stroked-button color="success" [disabled]="!contactForm.dirty && !contactForm.valid" *ngIf="!contactForm.disabled" (click)="save()">Save</button>
+  </mat-dialog-actions>
+</div>

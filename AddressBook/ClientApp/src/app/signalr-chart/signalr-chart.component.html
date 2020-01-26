@@ -1,0 +1,15 @@
+<div class="chart" *ngIf='signalRService.data'>
+  <canvas baseChart
+          [datasets]="signalRService.data"
+          [labels]="chartLabels"
+          [options]="chartOptions"
+          [legend]="chartLegend"
+          [chartType]="chartType"
+          [colors]="colors">
+  </canvas>
+</div>
+
+<!--Spinner-->
+<div *ngIf="!signalRService.data">
+  <mat-spinner color="warn"></mat-spinner>
+</div>

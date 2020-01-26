@@ -1,0 +1,58 @@
+
+.mat-table {
+  width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-spinner {
+  position: relative;
+  margin-left: 47%;
+  margin-top: 10%;
+}
+
+.mat-stroked-button {
+  margin-right: 10px;
+}
+
+.mat-elevation-z8 {
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+  height: 64px;
+  background: white;
+}
+
+p {
+  font-size: 18px;
+}
+
+.mat-column-select {
+  width: 5%;
+}
+.mat-column-FirstName {
+  width: 18%;
+}
+.mat-column-LastName {
+  width: 18%;
+}
+.mat-column-FullName {
+  width: 18%;
+}
+.mat-column-Address {
+  width: 18%;
+}
+.mat-column-DateOfBirth {
+  width: 18%;
+}
+.mat-column-buttons {
+  width: 1%;
+}
+
+

@@ -1,0 +1,6 @@
+<h1 style="font-size:25px" matDialogTitle>{{title}}</h1>
+<p style="font-size:20px" mat-dialog-content>{{confirmMessage}}</p>
+<div mat-dialog-actions class="pt-24" layout="row">
+  <button mat-raised-button color="warn" (click)="dialogRef.close(true)">{{confirmButtonText}}</button>
+  <button mat-button (click)="dialogRef.close(false)">{{cancelButtonText}}</button>
+</div>
