@@ -13,16 +13,17 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./contacts-list.component.css']
 })
 export class ContactsListComponent implements OnInit {
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
   dataReceived: boolean = false;
   displayedColumns: string[] = ['select', 'FirstName', 'LastName', 'FullName', 'Address', 'DateOfBirth', 'buttons'];
   contacts: Contact[];
-  data: any;
-  dataSource: MatTableDataSource<Contact> = new MatTableDataSource<Contact>(this.data);
+  materialTableData: any;
+  dataSource: MatTableDataSource<Contact> = new MatTableDataSource<Contact>(this.materialTableData);
   selection = new SelectionModel<Contact>(true, []);
   dialogRef: any;
-  @ViewChild(MatPaginator, null) paginator: MatPaginator;
   confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   filterValue: string = '';
+
   constructor(private service: AddressBookService, private dialog: MatDialog) {
   }
 
@@ -33,8 +34,8 @@ export class ContactsListComponent implements OnInit {
   getContactData() {
     this.service.getContacts().subscribe((response: Contact[]) => {
       this.contacts = response;
-      this.data = Object.assign(this.contacts)
-      this.dataSource = new MatTableDataSource(this.data);
+      this.materialTableData = Object.assign(this.contacts)
+      this.dataSource = new MatTableDataSource(this.materialTableData);
       this.dataSource.paginator = this.paginator;
       this.dataReceived = true;
     });
@@ -60,17 +61,6 @@ export class ContactsListComponent implements OnInit {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
-  }
-
-  removeSelectedRows() {
-    this.selection.selected.forEach(item => {
-      this.removeItem(item);
-    });
-    this.selection = new SelectionModel<Contact>(true, []);
-  }
-
-  removeItem(contact: Contact) {
-    this.delete(contact.Id);
   }
 
   openDialog(action, row) {
@@ -125,7 +115,30 @@ export class ContactsListComponent implements OnInit {
     });
   }
 
+  removeSelectedRows() {
+    // Opens the dialog component, and disables escape button
+    this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
+      disableClose: false
+    });
+    // Send a custom message to component
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete the selected contacts?';
+
+    // On dialog closing, get result and do some logic
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // If there is a result, call the delete method with params
+        this.selection.selected.forEach(item => {
+          this.delete(item.Id);
+        });
+        this.selection = new SelectionModel<Contact>(true, []);
+      }
+      this.confirmDialogRef = null;
+    });
+  }
+
   delete(id: number) {
     this.service.deleteContact(id).subscribe(response => { this.getContactData(); });
   }
+
+
 }

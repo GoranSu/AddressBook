@@ -25,7 +25,7 @@ export class ContactsDialogComponent implements OnInit {
     private service: AddressBookService,
     private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) private data) {
-    console.log(data)
+    //console.log(data)
     this.action = data.action;
     this.createForm();
 
@@ -44,7 +44,6 @@ export class ContactsDialogComponent implements OnInit {
       }
       default: {
         //statements;
-        console.log('create should be default.');
         this.title = 'Create contact';
         this.dataReceived = true;
         this.contact = new Contact();
@@ -58,15 +57,11 @@ export class ContactsDialogComponent implements OnInit {
   }
 
   getData(contactId: number) {
-    this.service.getContact(contactId).subscribe(
-      data => {
-        this.contact = data;
+    this.service.getContact(contactId).subscribe(response => {
+      this.contact = response;
         this.initiateForm(this.contact);
         this.dataReceived = true;
-      },
-      err => console.log(err),
-      () => console.log('yay')
-    );
+      });
   }
 
   createForm() {
@@ -82,10 +77,10 @@ export class ContactsDialogComponent implements OnInit {
   initiateForm(contact: Contact) {
     this.contactForm = this.formBuilder.group({
       Id: [contact.Id ? contact.Id : null],
-      FirstName: [contact.FirstName ? contact.FirstName : ''],
-      LastName: [contact.LastName ? contact.LastName : ''],
-      DateOfBirth: [contact.DateOfBirth ? contact.DateOfBirth : ''],
-      Address: [contact.Address ? contact.Address : ''],
+      FirstName: [contact.FirstName ? contact.FirstName : '', Validators.required],
+      LastName: [contact.LastName ? contact.LastName : '', Validators.required],
+      DateOfBirth: [contact.DateOfBirth ? contact.DateOfBirth : '', Validators.required],
+      Address: [contact.Address ? contact.Address : '', Validators.required],
 
       // Nested array
       PhoneNumbers: this.formBuilder.array([]),

@@ -22,7 +22,6 @@ import {
   MatGridListModule,
 } from '@angular/material';
 import { AppComponent } from './app.component';
-import { SideNavComponent } from './side-nav/side-nav.component';
 import { ContactsListComponent } from './contacts-list/contacts-list.component';
 import { AddressBookService } from '../shared/addressbook.service';
 import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.component';
@@ -30,17 +29,18 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { SignalrChartComponent } from './signalr-chart/signalr-chart.component';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { HttpErrorInterceptor } from './interceptors/http-error-interceptor';
+import { NavigationComponent } from './navigation/navigation.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    SideNavComponent,
     ContactsListComponent,
     ContactsDialogComponent,
     ConfirmDialogComponent,
-    SignalrChartComponent
+    SignalrChartComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserAnimationsModule,
